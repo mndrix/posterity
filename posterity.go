@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+type Family struct {
+	People []*Person
+}
+
 // Tick iterates a single person forward in time by one unit. The resulting
 // slice of people represents the people still alive at the next time interval.
 func Tick(x *Person) []*Person {
@@ -18,16 +22,15 @@ func Tick(x *Person) []*Person {
 	return people
 }
 
-// Next converts one Posterity into the Posterity that's present at the next
-// time interval.
-func Next(p []*Person) []*Person {
+// Next adjusts the family one tick of the clock.
+func (f *Family) Next() {
+	// handle births and deaths
 	var people []*Person
-	for _, x := range p {
+	for _, x := range f.People {
 		xs := Tick(x)
 		people = append(people, xs...)
 	}
-
-	return people
+	f.People = people
 }
 
 func main() {
@@ -39,20 +42,22 @@ func main() {
 	sizes := make(map[int]int)
 	for i := 0; i < iterations; i++ {
 
-		family := []*Person{
-			{Male, 37, 5},   // me
-			{Female, 12, 0}, // Ara
-			{Male, 11, 0},   // Jericho
-			{Female, 9, 0},  // Haven
-			{Male, 6, 0},    // Gideon
-			{Male, 2, 0},    // Brigham
+		family := &Family{
+			People: []*Person{
+				{Male, 37, 5},   // me
+				{Female, 12, 0}, // Ara
+				{Male, 11, 0},   // Jericho
+				{Female, 9, 0},  // Haven
+				{Male, 6, 0},    // Gideon
+				{Male, 2, 0},    // Brigham
+			},
 		}
 
 		for y := 0; y < years; y++ {
-			family = Next(family)
+			family.Next()
 		}
 
-		size := len(family)
+		size := len(family.People)
 		sizes[size]++
 		if size > largestSize {
 			largestSize = size
