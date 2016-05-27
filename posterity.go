@@ -37,29 +37,31 @@ func (f *Family) Next() {
 	f.People = people
 
 	// handle family assets
-	income := float64(f.Assets) * (f.Return - f.Inflation)
+	outgo := 0.0
 	for _, x := range f.People {
 		if x.Age == 13 || x.Age == 14 {
-			income -= 1200 // $100 per month
+			outgo += 1200 // $100 per month
 		}
 		if x.Age == 15 || x.Age == 16 {
-			income -= 2400 // $200 per month
+			outgo += 2400 // $200 per month
 		}
 		if x.Age == 17 {
-			income -= 4800 // $400 per month
+			outgo += 4800 // $400 per month
 		}
 		if x.Age >= 18 && x.Age <= 35 {
-			income -= 12000 // $1,000 per month
-		}
-		if income < 0 { // or oldest ones get no money
-			income = 0
+			outgo += 12000 // $1,000 per month
 		}
 	}
+	income := float64(f.Assets) * (f.Return - f.Inflation)
+	if outgo > income { // too little income? oldest ones get nothing
+		outgo = income
+	}
+	income -= outgo
 	f.Assets += int(income)
 }
 
 func main() {
-	const years = 20
+	const years = 40
 	const iterations = 1000
 
 	smallestSize := 999
