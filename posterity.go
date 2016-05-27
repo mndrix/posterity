@@ -58,6 +58,9 @@ func (f *Family) Next() {
 	}
 	income -= outgo
 	f.Assets += int(income)
+	if f.Assets < 0 {
+		f.Assets = 0
+	}
 }
 
 func main() {
