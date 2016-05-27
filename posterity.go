@@ -53,9 +53,9 @@ func (f *Family) Next() {
 		}
 	}
 	income := float64(f.Assets) * (f.Return - f.Inflation)
-	if outgo > income { // too little income? oldest ones get nothing
-		outgo = income
-	}
+	// if outgo > income { // too little income? oldest ones get nothing
+	// 	outgo = income
+	// }
 	income -= outgo
 	f.Assets += int(income)
 	if f.Assets < 0 {
@@ -64,7 +64,7 @@ func (f *Family) Next() {
 }
 
 func main() {
-	const years = 40
+	const years = 100
 	const iterations = 1000
 
 	smallestSize := 999
@@ -120,8 +120,8 @@ func main() {
 		fmt.Printf("%.1f %.1f\n", float64(i)/10, float64(values[i])/float64(iterations)*100)
 	}
 
-	fmt.Println("\nFamily size:")
-	for i := smallestSize; i <= largestSize; i++ {
-		fmt.Printf("%2d %.1f\n", i, float64(sizes[i])/float64(iterations)*100)
-	}
+	// fmt.Println("\nFamily size:")
+	// for i := smallestSize; i <= largestSize; i++ {
+	// 	fmt.Printf("%2d %.1f\n", i, float64(sizes[i])/float64(iterations)*100)
+	// }
 }
