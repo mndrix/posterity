@@ -235,9 +235,57 @@ func (self *Person) Dies() bool {
 
 	switch self.Gender {
 	case Male:
-		P = 0.0014 // approximate death probability for 30 year old
+		if self.Age < 1 {
+			P = 0.006575
+		} else if self.Age < 4 {
+			P = 0.0003
+		} else if self.Age < 13 {
+			P = 0.0001
+		} else if self.Age < 20 {
+			P = 0.0005
+		} else if self.Age < 40 {
+			P = 0.0015
+		} else if self.Age < 50 {
+			P = 0.0035
+		} else if self.Age < 60 {
+			P = 0.0075
+		} else if self.Age < 70 {
+			P = 0.015
+		} else if self.Age < 80 {
+			P = 0.035
+		} else if self.Age < 90 {
+			P = 0.10
+		} else if self.Age < 100 {
+			P = 0.25
+		} else {
+			P = 1.0
+		}
 	case Female:
-		P = 0.0006 // approximate death probability for 30 year old
+		if self.Age < 1 {
+			P = 0.005516
+		} else if self.Age < 4 {
+			P = 0.0002
+		} else if self.Age < 13 {
+			P = 0.0001
+		} else if self.Age < 20 {
+			P = 0.0002
+		} else if self.Age < 40 {
+			P = 0.0006
+		} else if self.Age < 50 {
+			P = 0.0017
+		} else if self.Age < 60 {
+			P = 0.0035
+		} else if self.Age < 70 {
+			P = 0.01
+		} else if self.Age < 80 {
+			P = 0.025
+		} else if self.Age < 90 {
+			P = 0.075
+		} else if self.Age < 100 {
+			P = 0.20
+		} else {
+			P = 1.0
+		}
 	}
 
 	return rand.Float64() < P
